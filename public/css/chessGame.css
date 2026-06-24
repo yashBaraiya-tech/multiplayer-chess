@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #2a2a2a, #111);
+    font-family: Arial, sans-serif;
+}
+
+/* BOARD */
+.chessboard {
+    width: 640px;
+    height: 640px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    border: 10px solid #222;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    transition: transform 0.5s ease;
+}
+
+/* FLIP BOARD */
+.chessboard.flipped {
+    transform: rotate(180deg);
+}
+
+/* IMPORTANT: counter rotate pieces so they stay upright */
+.chessboard.flipped .piece {
+    transform: rotate(180deg);
+}
+
+/* SQUARE */
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    position: relative;
+}
+
+/* COLORS */
+.light {
+    background: linear-gradient(145deg, #f0d9b5, #e6cfa8);
+}
+
+.dark {
+    background: linear-gradient(145deg, #b58863, #a0744e);
+}
+
+/* HOVER EFFECT */
+.square:hover {
+    outline: 2px solid rgba(255, 255, 0, 0.5);
+    outline-offset: -2px;
+}
+
+/* PIECES */
+.piece {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 52px;
+    cursor: grab;
+    transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+/* DRAG FEEL */
+.piece:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+/* WHITE */
+.white {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* BLACK */
+.black {
+    color: #111;
+    text-shadow: 0 2px 4px rgba(255,255,255,0.2);
+}
+
+/* DRAG HIGHLIGHT */
+.square.drag-over {
+    outline: 3px solid rgba(0, 255, 0, 0.5);
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .chessboard {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    .piece {
+        font-size: 10vw;
+    }
+}
+
+.square.highlight {
+    outline: 3px solid rgba(0, 255, 0, 0.6);
+    outline-offset: -3px;
+}
+
