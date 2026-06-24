@@ -1,6 +1,8 @@
 const socket = io();
 const chess = new Chess()
 const boardElement = document.querySelector('.chessboard')
+const turnDot = document.getElementById('turn-dot');
+const turnText = document.getElementById('turn-text');
 
 let draggedPiece = null;
 let sourceSquare = null;
@@ -100,6 +102,8 @@ const renderBoard = () => {
         boardElement.classList.remove("flipped");
 
     }
+
+    updateTurnUI();
 }
 
 const handleMove = (source, target) => {
@@ -144,6 +148,20 @@ const clearHighlights = () => {
     });
 };
 
+const updateTurnUI = () => {
+    const turn = chess.turn(); // w or b
+
+    if (turn === 'w') {
+        turnText.innerText = "White to move";
+        turnDot.style.background = "#ffffff";
+        turnDot.style.boxShadow = "0 0 12px #ffffff";
+    } else {
+        turnText.innerText = "Black to move";
+        turnDot.style.background = "#000000";
+        turnDot.style.boxShadow = "0 0 12px #000000";
+    }
+};
+
 socket.on('playerRole', (role) => {
     playerRole = role
     renderBoard();
@@ -157,10 +175,12 @@ socket.on("spectatorRole", function () {
 socket.on('boardState', (fen) => {
     chess.load(fen)
     renderBoard();
+    updateTurnUI();
 })
 
 socket.on('move', (move) => {
     chess.move(move)
     renderBoard();
+    updateTurnUI();
 })
 renderBoard();
