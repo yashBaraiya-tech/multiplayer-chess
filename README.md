@@ -115,7 +115,7 @@ http://localhost:3000
 ## 📸 Screenshots
 
 <h3>Game Board</h3>
-<img src="/screenshots/ss.png" width="700">
+<img src="/public/screenshot/ss.png" width="700">
 
 
 
