@@ -7,6 +7,7 @@ const turnText = document.getElementById('turn-text');
 let draggedPiece = null;
 let sourceSquare = null;
 let playerRole = null;
+let lastMove = null;
 
 
 const renderBoard = () => {
@@ -18,6 +19,15 @@ const renderBoard = () => {
             squareElement.classList.add('square',
                 (rowindex + squareindex) % 2 === 0 ? 'light' : 'dark'
             )
+            const squareName = `${String.fromCharCode(97 + squareindex)}${8 - rowindex}`;
+            if (lastMove) {
+                if (squareName === lastMove.from) {
+                    squareElement.classList.add('last-move-from');
+                }
+                if (squareName === lastMove.to) {
+                    squareElement.classList.add('last-move-to');
+                }
+            }
 
             squareElement.dataset.row = rowindex
             squareElement.dataset.col = squareindex
@@ -185,8 +195,10 @@ socket.on('boardState', (fen) => {
 })
 
 socket.on('move', (move) => {
-    chess.move(move)
+    chess.move(move);
+
+    lastMove = move;
     renderBoard();
     updateTurnUI();
-})
+});
 renderBoard();
