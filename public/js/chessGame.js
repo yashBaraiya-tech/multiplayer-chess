@@ -3,6 +3,8 @@ const chess = new Chess()
 const boardElement = document.querySelector('.chessboard')
 const turnDot = document.getElementById('turn-dot');
 const turnText = document.getElementById('turn-text');
+const gameOverModal = document.getElementById('gameOverModal');
+const gameOverText = document.getElementById('gameOverText');
 
 let draggedPiece = null;
 let sourceSquare = null;
@@ -178,6 +180,27 @@ const updateTurnUI = () => {
     }
 };
 
+const highlightKingInCheck = () => {
+    document.querySelectorAll('.piece').forEach(piece => {
+        piece.classList.remove('king-check');
+    });
+
+    const board = chess.board();
+
+    board.forEach((row, r) => {
+        row.forEach((square, c) => {
+            if (square && square.type === 'k' && square.color === chess.turn()) {
+                const selector = `[data-row="${r}"][data-col="${c}"]`;
+                const el = document.querySelector(selector);
+
+                if (el) {
+                    el.querySelector('.piece')?.classList.add('king-check');
+                }
+            }
+        });
+    });
+};
+
 socket.on('playerRole', (role) => {
     playerRole = role
     renderBoard();
@@ -201,4 +224,18 @@ socket.on('move', (move) => {
     renderBoard();
     updateTurnUI();
 });
+
+socket.on('gameOver', (data) => {
+    gameOverModal.classList.remove('hidden');
+
+    if (data.type === 'checkmate') {
+        const winner = data.winner === 'w' ? 'White' : 'Black';
+        gameOverText.innerText = `Checkmate! ${winner} wins`;
+    }
+});
+
+socket.on('check', () => {
+    highlightKingInCheck();
+});
+
 renderBoard();

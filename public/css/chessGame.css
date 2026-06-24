@@ -155,3 +155,31 @@ body {
 .last-move-to {
     background: rgba(254, 254, 254, 0.477) !important;
 }
+
+.game-over {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.game-over-box {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ♚ CHECK GLOW */
+.king-check {
+    box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.8);
+    border-radius: 6px;
+}

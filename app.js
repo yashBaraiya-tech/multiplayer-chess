@@ -51,6 +51,12 @@ io.on('connection', (uniquesocket) => {
                 currentPlayer = chess.turn()
                 io.emit('move', move)
                 io.emit('boardState', chess.fen())
+                
+                if (chess.isCheckmate()) {
+                    io.emit('gameOver', { type: 'checkmate', winner: result.color });
+                } else if (chess.isCheck()) {
+                    io.emit('check', { turn: chess.turn() });
+                }
             } else {
                 console.log('Invalid Move: ', move)
                 uniquesocket.emit('invalid Move: ', move)
