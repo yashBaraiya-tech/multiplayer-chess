@@ -33,39 +33,44 @@ const renderBoard = () => {
                 const isPlayersTurn = playerRole === chess.turn();
                 pieseElement.draggable = isPlayersPiece && isPlayersTurn;
 
-               pieseElement.addEventListener('dragstart', (e) => {
-    if (!pieseElement.draggable) return;
+                pieseElement.addEventListener('dragstart', (e) => {
+                    if (!pieseElement.draggable) return;
 
-    draggedPiece = pieseElement;
-    sourceSquare = { row: rowindex, col: squareindex };
+                    draggedPiece = pieseElement;
+                    sourceSquare = { row: rowindex, col: squareindex };
 
-    e.dataTransfer.setData("text/plain", "");
+                    e.dataTransfer.setData("text/plain", "");
 
-    // 🔴 UPDATE: highlight legal moves
-    const from = `${String.fromCharCode(97 + sourceSquare.col)}${8 - sourceSquare.row}`;
+                    // 🔴 UPDATE: highlight legal moves
+                    const from = `${String.fromCharCode(97 + sourceSquare.col)}${8 - sourceSquare.row}`;
 
-    const moves = chess.moves({
-        square: from,
-        verbose: true
-    });
+                    const moves = chess.moves({
+                        square: from,
+                        verbose: true
+                    });
 
-    clearHighlights();
+                    clearHighlights();
 
-    moves.forEach(move => {
-        const file = move.to[0];
-        const rank = move.to[1];
+                    moves.forEach(move => {
+                        const file = move.to[0];
+                        const rank = move.to[1];
 
-        const row = 8 - parseInt(rank);
-        const col = file.charCodeAt(0) - 97;
+                        const row = 8 - parseInt(rank);
+                        const col = file.charCodeAt(0) - 97;
 
-        const selector = `[data-row="${row}"][data-col="${col}"]`;
-        const square = document.querySelector(selector);
+                        const selector = `[data-row="${row}"][data-col="${col}"]`;
+                        const square = document.querySelector(selector);
 
-        if (square) {
-            square.classList.add("highlight");
-        }
-    });
-});
+                        if (!square) return;
+
+                        // Capture move check
+                        if (move.captured) {
+                            square.classList.add("capture-highlight");
+                        } else {
+                            square.classList.add("highlight");
+                        }
+                    });
+                });
 
                 pieseElement.addEventListener('dragend', (e) => {
                     draggedPiece = null;
@@ -145,6 +150,7 @@ const getPieceUnicode = (piece) => {
 const clearHighlights = () => {
     document.querySelectorAll('.square').forEach(square => {
         square.classList.remove('highlight');
+        square.classList.remove('capture-highlight');
     });
 };
 

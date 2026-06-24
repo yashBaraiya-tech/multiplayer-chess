@@ -143,3 +143,8 @@ body {
     50% { transform: scale(1.3); opacity: 0.6; }
     100% { transform: scale(1); opacity: 1; }
 }
+.square.capture-highlight {
+    outline: 3px solid rgba(255, 0, 0, 0.8);
+    outline-offset: -3px;
+    box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.4);
+}
