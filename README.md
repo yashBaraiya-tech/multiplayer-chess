@@ -115,10 +115,10 @@ http://localhost:3000
 ## 📸 Screenshots
 
 <h3>Game Board</h3>
-<img src="/public/screenshot/ss1.png" width="500">
-<img src="/public/screenshot/ss2.png" width="500">
-<img src="/public/screenshot/ss3.png" width="500">
-<img src="/public/screenshot/ss4.png" width="500">
+<img src="/public/screenshot/ss1.png" width="700">
+<img src="/public/screenshot/ss2.png" width="700">
+<img src="/public/screenshot/ss3.png" width="700">
+<img src="/public/screenshot/ss4.png" width="700">
 
 
 
